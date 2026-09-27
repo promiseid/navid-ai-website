@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://promiseid.github.io/navid-ai-website/sitemap.xml
