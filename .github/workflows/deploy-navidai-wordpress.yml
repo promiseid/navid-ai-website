@@ -1,0 +1,77 @@
+name: Deploy NAVIDAI Premium to WordPress
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Preview only (no files uploaded)"
+        required: true
+        type: boolean
+        default: true
+  push:
+    branches: [main]
+    paths:
+      - "themes/navidai-premium/**"
+      - ".github/workflows/deploy-navidai-wordpress.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: navidai-wordpress-theme
+  cancel-in-progress: false
+
+jobs:
+  deploy-theme:
+    # Disabled until hosting + secure credentials have been configured.
+    if: ${{ vars.NAVIDAI_WP_DEPLOY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout theme source
+        uses: actions/checkout@v4
+
+      - name: Validate host configuration and limit destination to theme
+        shell: bash
+        env:
+          FTP_SERVER: ${{ secrets.NAVIDAI_FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.NAVIDAI_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.NAVIDAI_FTP_PASSWORD }}
+          FTP_THEME_DIR: ${{ vars.NAVIDAI_FTP_THEME_DIR }}
+        run: |
+          set -euo pipefail
+          for key in FTP_SERVER FTP_USERNAME FTP_PASSWORD FTP_THEME_DIR; do
+            if [[ -z "${!key}" ]]; then
+              echo "::error::Missing configuration: $key"
+              exit 1
+            fi
+          done
+          if [[ "$FTP_THEME_DIR" != *"/wp-content/themes/navidai-premium/" || "$FTP_THEME_DIR" == *".."* ]]; then
+            echo "::error::Remote directory must end with /wp-content/themes/navidai-premium/"
+            exit 1
+          fi
+          if [[ ! -f themes/navidai-premium/style.css || ! -f themes/navidai-premium/functions.php ]]; then
+            echo "::error::WordPress theme files are missing"
+            exit 1
+          fi
+
+      - name: Sync NAVIDAI Premium theme via explicit FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.NAVIDAI_FTP_SERVER }}
+          username: ${{ secrets.NAVIDAI_FTP_USERNAME }}
+          password: ${{ secrets.NAVIDAI_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          security: strict
+          timeout: 120000
+          local-dir: ./themes/navidai-premium/
+          server-dir: ${{ vars.NAVIDAI_FTP_THEME_DIR }}
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            README.md
+            INSTALL_FA.md
