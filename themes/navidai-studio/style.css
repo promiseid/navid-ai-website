@@ -3,7 +3,7 @@ Theme Name: Navid AI Studio
 Theme URI: https://github.com/promiseid/navid-ai-website
 Author: Navid AI
 Description: A responsive, RTL-ready Persian WordPress theme for Navid AI. No external dependencies.
-Version: 1.0.0
+Version: 1.0.1
 Requires at least: 6.2
 Tested up to: 6.9
 Requires PHP: 7.4
@@ -61,7 +61,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 .visual{position:relative;isolation:isolate;min-height:455px;display:grid;place-items:center}
 .visual::before{content:"";position:absolute;inset:8% 2%;background:radial-gradient(circle,rgba(57,188,206,.18) 4%,rgba(75,87,221,.08) 35%,transparent 68%);filter:blur(13px);z-index:-1}
 .orbit{width:min(78%,385px);height:auto;aspect-ratio:1;max-width:98%;border-radius:50%;border:1px solid rgba(143,214,236,.14);position:absolute;transform:rotate(-18deg)}
-.orbit.two{width:min(68%,315px);height:auto;aspect-ratio:1;border-style:dashed;border-color:rgba(143,214,236,.15);animation:spin 70s linear infinite}
+.orbit.two{width:min(68%,315px);height:auto;aspect-ratio:1;border-style:dashed;border-color:rgba(143,214,236,.15);animation:spin 240s linear infinite}
 .orbit.three{width:230px;height:230px;border:1px solid rgba(110,225,214,.26)}
 .orbit::before{content:"";position:absolute;top:50px;right:42px;width:9px;height:9px;background:var(--aqua);border-radius:50%;box-shadow:0 0 25px var(--aqua)}
 .visual-core{position:relative;width:192px;height:192px;border-radius:39px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(48,204,199,.2),rgba(90,101,242,.15));border:1px solid rgba(135,229,222,.34);box-shadow:inset 0 0 45px rgba(90,227,214,.08),0 25px 70px rgba(0,0,0,.26);transform:rotate(-8deg)}
