@@ -5,7 +5,7 @@
   const menu = document.querySelector('[data-menu]');
   const menuToggle = document.querySelector('[data-menu-toggle]');
   const saved = (() => { try{return localStorage.getItem('navidai-theme')}catch(_){return null} })();
-  if (saved === 'light') root.classList.add('light');
+  if (saved === 'dark') root.classList.remove('light'); else root.classList.add('light');
   const sync = () => { if(toggle){toggle.setAttribute('aria-label',root.classList.contains('light')?'فعال‌سازی حالت تاریک':'فعال‌سازی حالت روشن');toggle.setAttribute('aria-pressed',String(root.classList.contains('light')))} };
   sync();
   toggle?.addEventListener('click', () => {
