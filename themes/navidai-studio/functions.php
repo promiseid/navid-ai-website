@@ -20,7 +20,7 @@ function navidai_studio_setup() {
 add_action( 'after_setup_theme', 'navidai_studio_setup' );
 
 function navidai_studio_assets() {
-    wp_enqueue_style( 'navidai-studio-style', get_stylesheet_uri(), array(), '1.0.0' );
+    wp_enqueue_style( 'navidai-studio-style', get_stylesheet_uri(), array(), '1.0.1' );
     wp_enqueue_script( 'navidai-studio-script', get_template_directory_uri() . '/app.js', array(), '1.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'navidai_studio_assets' );
